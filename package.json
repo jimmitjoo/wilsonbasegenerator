@@ -1,0 +1,20 @@
+{
+  "name": "wilsonbase",
+  "version": "1.0.0",
+  "description": "Auto install latest WordPress as a base of a Wilson project with some customizations.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jimmie Johansson <jimmie@wilsoncreative.se>",
+  "license": "ISC",
+  "preferGlobal": true,
+  "bin": {
+    "wilson": "wilson.js"
+  },
+  "devDependencies": {
+    "cli-color": "^1.0.0",
+    "prompt": "^0.2.14",
+    "shelljs": "^0.5.3"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "wilson-base",
+  "version": "0.0.1",
+  "homepage": "https://github.com/Wilsoncreative/wilson-base",
+  "authors": [
+    "Jimmie Johansson <jimmie@wilsoncreative.se>"
+  ],
+  "description": "Wilson Base WordPress theme",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-sass-official": "~3.3.5",
+    "fontawesome": "~4.4.0"
+  }
+}
