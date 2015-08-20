@@ -162,6 +162,8 @@ function installWilsonBaseTheme() {
 
     setUpConfigFile();
 
+
+
 }
 
 function setUpConfigFile() {
@@ -239,6 +241,7 @@ function setUpConfigFile() {
         echo(clc.green('Config file successfully created!'));
 
         removeFile( root + '/wp-config.php.bak');
+        removeFile( root + '/wilson-base-theme');
 
         installDependencies();
 
