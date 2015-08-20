@@ -1,20 +1,21 @@
 'use strict';
 
 var gulp = require('gulp'),
+    sass = require('gulp-ruby-sass'),
+    bower = require('gulp-bower'),
     concat = require('gulp-concat'),
     uglify = require('gulp-uglify'),
-    sass = require('gulp-ruby-sass'),
     notify = require("gulp-notify"),
-    bower = require('gulp-bower'),
-    sourcemaps = require('gulp-sourcemaps'),
-    imagemin = require('gulp-imagemin');
+    imagemin = require('gulp-imagemin'),
+    pngquant = require('pngquant'),
+    sourcemaps = require('gulp-sourcemaps');
 
 var config = {
+    buildPath: './build',
     jsPath: './assets/js',
-    imgPath: './assets/images',
     sassPath: './assets/sass',
-    bowerDir: './bower_components',
-    buildPath: './build'
+    imgPath: './assets/images',
+    bowerDir: './bower_components'
 };
 
 
@@ -23,10 +24,14 @@ gulp.task('bower', function () {
         .pipe(gulp.dest(config.bowerDir));
 });
 
-gulp.task('icons', function () {
+gulp.task('fontawesome', function () {
     return gulp.src(config.bowerDir + '/fontawesome/fonts/**.*')
         .pipe(gulp.dest(config.buildPath + '/fonts'));
 });
+gulp.task('glyphicons', function () {
+    return gulp.src(config.bowerDir + '/bootstrap-sass-official/assets/fonts/bootstrap/**.*')
+        .pipe(gulp.dest(config.buildPath + '/fonts/bootstrap'));
+})
 
 gulp.task('css', function () {
     return sass(config.sassPath + '/style.scss', {
@@ -65,8 +70,8 @@ gulp.task('scripts', function () {
 // Rerun the task when a file changes
 gulp.task('watch', function () {
     gulp.watch(config.imgPath + '/*', ['images']);
-    gulp.watch(config.sassPath + '/**/*.scss', ['css']);
     gulp.watch(config.jsPath + '/**/*.js', ['scripts']);
+    gulp.watch(config.sassPath + '/**/*.scss', ['css']);
 });
 
-gulp.task('default', ['bower', 'icons', 'css', 'scripts', 'watch']);
+gulp.task('default', ['bower', 'fontawesome', 'glyphicons', 'css', 'scripts', 'images', 'watch']);
