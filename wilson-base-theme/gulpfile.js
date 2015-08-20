@@ -6,12 +6,15 @@ var gulp = require('gulp'),
     sass = require('gulp-ruby-sass'),
     notify = require("gulp-notify"),
     bower = require('gulp-bower'),
-    sourcemaps = require('gulp-sourcemaps');
+    sourcemaps = require('gulp-sourcemaps'),
+    imagemin = require('gulp-imagemin');
 
 var config = {
     jsPath: './assets/js',
+    imgPath: './assets/images',
     sassPath: './assets/sass',
-    bowerDir: './bower_components'
+    bowerDir: './bower_components',
+    buildPath: './build'
 };
 
 
@@ -22,7 +25,7 @@ gulp.task('bower', function () {
 
 gulp.task('icons', function () {
     return gulp.src(config.bowerDir + '/fontawesome/fonts/**.*')
-        .pipe(gulp.dest('./build/fonts'));
+        .pipe(gulp.dest(config.buildPath + '/fonts'));
 });
 
 gulp.task('css', function () {
@@ -37,20 +40,31 @@ gulp.task('css', function () {
     })
         .pipe(sourcemaps.init({loadMaps: true}))
         .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./build/css'));
+        .pipe(gulp.dest(config.buildPath + '/css'));
 });
+
+gulp.task('images', function () {
+    return gulp.src(config.imgPath + '/*')
+        .pipe(imagemin({
+            progressive: true,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [pngquant()]
+        }))
+        .pipe(gulp.dest(config.buildPath + '/images'));
+})
 
 
 gulp.task('scripts', function () {
     return gulp.src(config.jsPath + '/**/*.js')
         .pipe(concat('build.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('./build/js'));
+        .pipe(gulp.dest(config.buildPath + '/js'));
 });
 
 
 // Rerun the task when a file changes
 gulp.task('watch', function () {
+    gulp.watch(config.imgPath + '/*', ['images']);
     gulp.watch(config.sassPath + '/**/*.scss', ['css']);
     gulp.watch(config.jsPath + '/**/*.js', ['scripts']);
 });

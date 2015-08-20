@@ -8,6 +8,8 @@ var prompt = require('prompt');
 var arguments = process.argv.slice(2);
 var command = arguments[0];
 
+var root;
+
 
 if (!which('wget')) {
     echo(clc.red('Sorry, this script requires wget'));
@@ -42,13 +44,15 @@ if (!command || command == '') {
 
 
 if (command == 'new') {
-    installWordPress();
+    exec('pwd', function(err, stdout, stderr) {
+        root = stdout.trim();
+        installWordPress();
+    });
+
 }
 
 
 function installWordPress() {
-
-    setUpConfigFile();
 
     echo(clc.blue('Downloading latest version of WordPress...'));
 
@@ -83,11 +87,11 @@ function removeUnecessaryWordPressFiles() {
 
     echo(clc.blue('Removing unecessary files from WordPress'));
 
-    moveFile('wordpress/*', './')
-    removeFile('wordpress');
-    removeFile('readme.html');
-    removeFile('license.txt');
-    removeFile('latest.tar.gz');
+    moveFile( root + '/wordpress/*',  root + '/')
+    removeFile( root + '/wordpress');
+    removeFile( root + '/readme.html');
+    removeFile( root + '/license.txt');
+    removeFile( root + '/latest.tar.gz');
 
 }
 
@@ -122,7 +126,7 @@ function installPlugin(plugin, version) {
 
     echo(clc.blue('Installing ' + plugin + ', version: ' + version));
 
-    cd('wp-content/plugins/');
+    cd( root + '/wp-content/plugins/');
 
     var pluginUrlEnc = plugin.toLowerCase();
         pluginUrlEnc = pluginUrlEnc.replace(/ /g, '-');
@@ -145,7 +149,7 @@ function installPlugin(plugin, version) {
 
     echo(clc.green('Successfully installed ' + plugin));
 
-    cd('../..');
+    cd( root + '/');
 
 }
 
@@ -153,7 +157,7 @@ function installWilsonBaseTheme() {
 
     echo(clc.blue('Installing Wilson Base Theme'));
 
-    moveFile('wilson-base-theme', 'wp-content/themes/');
+    moveFile( root + '/wilson-base-theme',  root + '/wp-content/themes/');
     echo(clc.green('Successfully installed Wilson Base Theme'));
 
     setUpConfigFile();
@@ -213,31 +217,28 @@ function setUpConfigFile() {
         }
     };
 
-    cd('wilson-base-theme');
 
     prompt.start();
 
     prompt.get(schema, function (err, result) {
         if (err) { return onErr(err); }
 
-        moveFile('wp-config.php', '..');
+        moveFile( root + '/wilson-base-theme/wp-config.php', root + '/' );
 
-        cd('..');
-
-        exec("sed -i '.bak' 's/NEWSITEURL/" + result.siteUrl + "/g' wp-config.php");
-        exec("sed -i '.bak' 's/NEWSITEDATABASENAME/" + result.dbName + "/g' wp-config.php");
-        exec("sed -i '.bak' 's/NEWSITEDATABASEUSER/" + result.dbUser + "/g' wp-config.php");
-        exec("sed -i '.bak' 's/NEWSITETABLEPREFIX/" + result.tblPrefix + "/g' wp-config.php");
-        exec("sed -i '.bak' 's/NEWSITEALLOWMULTISITE/" + result.multiSite + "/g' wp-config.php");
-        exec("sed -i '.bak' 's/NEWSITEDISALLOWFILEEDIT/" + result.fileEdit + "/g' wp-config.php");
-        exec("sed -i '.bak' 's/NEWSITEDISABLECRON/" + result.disableCron + "/g' wp-config.php");
-        exec("sed -i '.bak' 's/NEWSITEDEVDBPASS/" + result.devDbPassword + "/g' wp-config.php");
-        exec("sed -i '.bak' 's/NEWSITESTAGEDBPASS/" + result.stageDbPassword + "/g' wp-config.php");
-        exec("sed -i '.bak' 's/NEWSITEPRODDBPASS/" + result.prodDbPassword + "/g' wp-config.php");
+        exec("sed -i '.bak' 's/NEWSITEURL/" + result.siteUrl + "/g' " + root + "/wp-config.php");
+        exec("sed -i '.bak' 's/NEWSITEDATABASENAME/" + result.dbName + "/g' " + root + "/wp-config.php");
+        exec("sed -i '.bak' 's/NEWSITEDATABASEUSER/" + result.dbUser + "/g' " + root + "/wp-config.php");
+        exec("sed -i '.bak' 's/NEWSITETABLEPREFIX/" + result.tblPrefix + "/g' " + root + "/wp-config.php");
+        exec("sed -i '.bak' 's/NEWSITEALLOWMULTISITE/" + result.multiSite + "/g' " + root + "/wp-config.php");
+        exec("sed -i '.bak' 's/NEWSITEDISALLOWFILEEDIT/" + result.fileEdit + "/g' " + root + "/wp-config.php");
+        exec("sed -i '.bak' 's/NEWSITEDISABLECRON/" + result.disableCron + "/g' " + root + "/wp-config.php");
+        exec("sed -i '.bak' 's/NEWSITEDEVDBPASS/" + result.devDbPassword + "/g' " + root + "/wp-config.php");
+        exec("sed -i '.bak' 's/NEWSITESTAGEDBPASS/" + result.stageDbPassword + "/g' " + root + "/wp-config.php");
+        exec("sed -i '.bak' 's/NEWSITEPRODDBPASS/" + result.prodDbPassword + "/g' " + root + "/wp-config.php");
 
         echo(clc.green('Config file successfully created!'));
 
-        removeFile('wp-config.php.bak');
+        removeFile( root + '/wp-config.php.bak');
 
         installDependencies();
 
@@ -254,7 +255,7 @@ function setUpConfigFile() {
 
 function installDependencies() {
 
-    cd('wp-config/themes/wilson-base-theme');
+    cd( root + '/wp-content/themes/wilson-base-theme');
 
     echo(clc.blue('Installing Bower dependencies'));
     exec('bower install');
@@ -263,10 +264,7 @@ function installDependencies() {
         echo(clc.red('Error: We could not install NPM dependencies for you...'));
         exit(1);
     } else {
-        echo(clc.blue('Starting up gulp for you...'));
-        echo(clc.yellow('Now we have started gulp for you, and you can start develop within this project.'));
-        echo(clc.yellow('However, if you would like to change the theme name, you should quit this process and then rename the directory, cd into it and then restart gulp by just typing.. well, ') + (clc.green('gulp')));
-        exec('gulp');
+        echo(clc.green('Time to start developing! Cd into the theme and start ') + clc.yellow('$ gulp'));
     }
 
 }
