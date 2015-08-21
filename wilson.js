@@ -97,6 +97,8 @@ function installWordPress() {
         installPlugin('Advanced Custom Fields', '4.4.3');
         installPlugin('Custom Post Type UI', '1.1.2');
         installPlugin('WP Password Generator', '2.8.1');
+        installPlugin('Custom Facebook Feed', '2.3.6');
+        installPlugin('WP User Frontend', '2.3.6');
         installWilsonBaseTheme();
     }
 
