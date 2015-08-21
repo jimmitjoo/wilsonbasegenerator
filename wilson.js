@@ -99,6 +99,11 @@ function installWordPress() {
         installPlugin('WP Password Generator', '2.8.1');
         installPlugin('Custom Facebook Feed', '2.3.6');
         installPlugin('WP User Frontend', '2.3.6');
+        installPlugin('All in One SEO Pack', '2.2.7.1');
+        installPlugin('Better Google Analytics', '1.0.10');
+        installPlugin('WP Backitup', '1.10.9');
+        installPlugin('W3 Total Cache', '0.9.4.1');
+
         installWilsonBaseTheme();
     }
 
@@ -276,7 +281,7 @@ function setUpConfigFile() {
         echo(clc.green('Config file successfully created!'));
 
         removeFile( root + '/wp-config.php.bak');
-        removeFile( root + '/wilson-base-theme');
+        //removeFile( root + '/wilson-base-theme');
 
         installDependencies();
 
