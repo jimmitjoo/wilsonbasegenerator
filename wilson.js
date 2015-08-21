@@ -10,29 +10,62 @@ var command = arguments[0];
 
 var root;
 
+if (!which('brew')) {
+    echo(clc.yellow('You will need homebrew for this, let us install it for you.'));
+
+    if (exec('ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"').code !== 0) {
+        echo(clc.red('Error when trying to install homebrew'));
+        exit(1);
+    } else {
+        echo(clc.blue('homebrew installed successfully!'));
+    }
+}
+
 
 if (!which('wget')) {
-    echo(clc.red('Sorry, this script requires wget'));
-    echo('You can get it here: http://www.gnu.org/software/wget/');
-    exit(1);
+    echo(clc.yellow('We are going to try to install wget for you.'));
+
+    if (exec('sudo brew install wget').code !== 0) {
+        echo(clc.red('Error when trying to install wget'));
+        exit(1);
+    } else {
+        echo(clc.blue('wget installed successfully!'));
+    }
 }
 
 if (!which('bower')) {
-    echo(clc.red('Sorry, this script requires bower'));
-    echo('You can get it here: http://bower.io/');
-    exit(1);
+    echo(clc.yellow('This script requires bower, so let us install it for you.'));
+
+    if (exec('sudo npm install bower -g').code !== 0) {
+        echo(clc.red('Error when trying to install bower'));
+        exit(1);
+    } else {
+        echo(clc.blue('Bower installed successfully!'));
+    }
 }
 
 if (!which('gulp')) {
-    echo(clc.red('Sorry, this script requires gulp'));
-    echo('You can get it here: http://gulpjs.com/');
-    exit(1);
+    echo(clc.yellow('This script requires gulp, so let us install it for you.'));
+
+    if (exec('sudo npm install gulp -g').code !== 0) {
+        echo(clc.red('Error when trying to install gulp'));
+        exit(1);
+    } else {
+        echo(clc.blue('Gulp installed successfully!'));
+    }
+
 }
 
 if (!which('sed')) {
-    echo(clc.red('Sorry, this script requires sed'));
-    echo('You can get it here: http://gulpjs.com/');
-    exit(1);
+    echo(clc.yellow('This script requires sed, so let us install it for you.'));
+
+    if (exec('brew install gnu-sed --with-default-names').code !== 0) {
+        echo(clc.red('Error when trying to install sed'));
+        exit(1);
+    } else {
+        echo(clc.blue('Sed installed successfully!'));
+    }
+
 }
 
 
