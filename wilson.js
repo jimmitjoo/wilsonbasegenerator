@@ -97,13 +97,16 @@ function installWordPress() {
         installPlugin('Advanced Custom Fields', '4.4.3');
         installPlugin('Custom Post Type UI', '1.1.2');
         installPlugin('WP Password Generator', '2.8.1');
+<<<<<<< HEAD
         installPlugin('Custom Facebook Feed', '2.3.6');
         installPlugin('WP User Frontend', '2.3.6');
         installPlugin('All in One SEO Pack', '2.2.7.1');
-        installPlugin('Better Google Analytics', '1.0.10');
+        installPlugin('Better Analytics', '1.0.10');
         installPlugin('WP Backitup', '1.10.9');
         installPlugin('W3 Total Cache', '0.9.4.1');
 
+=======
+>>>>>>> bdf079ffcf13b968df3734607273e187e697dcc4
         installWilsonBaseTheme();
     }
 
@@ -197,7 +200,11 @@ function installWilsonBaseTheme() {
 
     echo(clc.blue('Installing Wilson Base Theme'));
 
+<<<<<<< HEAD
+    moveFile( root + '/wc_theme',  root + '/wp-content/themes/');
+=======
     moveFile( root + '/wilson-base-theme',  root + '/wp-content/themes/');
+>>>>>>> bdf079ffcf13b968df3734607273e187e697dcc4
     echo(clc.green('Successfully installed Wilson Base Theme'));
 
     setUpConfigFile();
@@ -265,7 +272,11 @@ function setUpConfigFile() {
     prompt.get(schema, function (err, result) {
         if (err) { return onErr(err); }
 
+<<<<<<< HEAD
+        moveFile( root + '/config/wp-config.php', root + '/' );
+=======
         moveFile( root + '/wilson-base-theme/wp-config.php', root + '/' );
+>>>>>>> bdf079ffcf13b968df3734607273e187e697dcc4
 
         exec("sed -i '.bak' 's/NEWSITEURL/" + result.siteUrl + "/g' " + root + "/wp-config.php");
         exec("sed -i '.bak' 's/NEWSITEDATABASENAME/" + result.dbName + "/g' " + root + "/wp-config.php");
@@ -281,7 +292,11 @@ function setUpConfigFile() {
         echo(clc.green('Config file successfully created!'));
 
         removeFile( root + '/wp-config.php.bak');
+<<<<<<< HEAD
         //removeFile( root + '/wilson-base-theme');
+=======
+        removeFile( root + '/wilson-base-theme');
+>>>>>>> bdf079ffcf13b968df3734607273e187e697dcc4
 
         installDependencies();
 
@@ -298,11 +313,19 @@ function setUpConfigFile() {
 
 function installDependencies() {
 
+<<<<<<< HEAD
+    cd( root + '/wp-content/themes/wc_theme');
+=======
     cd( root + '/wp-content/themes/wilson-base-theme');
+>>>>>>> bdf079ffcf13b968df3734607273e187e697dcc4
 
     echo(clc.blue('Installing Bower dependencies'));
     exec('bower install');
 
+<<<<<<< HEAD
+    echo(clc.blue('Installing NPM dependencies, this might take a while, so go and grab a coffee...'));
+=======
+>>>>>>> bdf079ffcf13b968df3734607273e187e697dcc4
     if (exec('npm install').code !== 0) {
         echo(clc.red('Error: We could not install NPM dependencies for you...'));
         exit(1);

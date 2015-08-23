@@ -2,11 +2,15 @@
   "name": "wilsonbase",
   "version": "1.0.0",
   "description": "Auto install latest WordPress as a base of a Wilson project with some customizations.",
+<<<<<<< HEAD
   "repository": {
     "type": "git",
     "url": "git://github.com/wilsoncreative/wilsonbasegenerator.git"
   },
   "main": "wilson.js",
+=======
+  "main": "index.js",
+>>>>>>> bdf079ffcf13b968df3734607273e187e697dcc4
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
